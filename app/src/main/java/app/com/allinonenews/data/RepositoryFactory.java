@@ -12,7 +12,7 @@ import app.com.allinonenews.data.repository.SourceRepository;
 public class RepositoryFactory {
 
     public static NewsRepository getNewsRepository(Context context){
-        return new NewsRepository(context);
+        return new NewsRepository(context) ;
     }
     public static SourceRepository getSourceRepository(Context context){
         return new SourceRepository(context);
