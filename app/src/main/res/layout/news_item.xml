@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        app:elevation="@dimen/cardview_elevation">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:id="@+id/newsItemParent"
+            android:background="@drawable/touch_feedback"
+            >
+
+            <LinearLayout
+                android:id="@+id/newsItemsTextLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignTop="@+id/newsItemsImageView"
+                android:layout_toRightOf="@+id/newsItemsImageView"
+                android:layout_toEndOf="@+id/newsItemsImageView"
+                android:layout_alignBottom="@+id/newsItemsImageView"
+                >
+
+                <TextView
+                    android:id="@+id/newsItemTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    tool:text="Tistle" />
+
+                <TextView
+                    android:id="@+id/newsItemAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    tool:text="By"
+                    android:textColor="@color/hyper_link_color"
+                    android:background="?selectableItemBackground"
+                    android:maxLines="4"
+                    android:ellipsize="end"
+                    />
+
+                <TextView
+                    android:id="@+id/newsItemPublishedAt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    tool:text="AT"
+                    android:textStyle="italic"
+                    android:textColor="@color/lightGreen"
+                    android:maxLines="2"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/newsItemsImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="7dp"
+                />
+
+            <TextView
+                android:id="@+id/newsItemDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignStart="@+id/newsItemsImageView"
+                android:layout_alignLeft="@+id/newsItemsImageView"
+                android:layout_below="@+id/newsItemsTextLayout"
+                tool:text="Description" />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

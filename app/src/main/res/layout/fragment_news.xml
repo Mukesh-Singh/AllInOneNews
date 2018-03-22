@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/newsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/noNewsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/noNewsIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_verified_user_24dp" />
+
+                <TextView
+                    android:id="@+id/noNoNewsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/no_news_in_the_source"
+                    android:layout_marginBottom="@dimen/list_item_padding" />
+
+                <TextView
+                    android:id="@+id/noNewsRetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/touch_feedback"
+                    android:gravity="center"
+                    android:text="@string/no_news_try_again"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/notify"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="1 Update"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/new_news_notification_background"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/goToTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_arrow_upward_white_24dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:background="@drawable/go_to_home_background"
+                android:padding="@dimen/list_item_padding"
+                android:visibility="visible"
+                android:layout_marginTop="120dp"
+                />
+
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

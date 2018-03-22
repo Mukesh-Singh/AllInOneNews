@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">AllInOneNews</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_filter">Filter</string>
+    <string name="no_internet">No Internet Connection!</string>
+    <string name="try_again">Try Again !</string>
+    <string name="author">By: %s</string>
+    <string name="published">At: %s</string>
+    <string name="no_news_try_again">Retry</string>
+    <string name="no_news_in_the_source">No news in the source!</string>
+    <string name="news_details">Details</string>
+    <string name="source_not_available">Sources Not Available !</string>
+    <string name="source">Source</string>
+    <string name="search">Search</string>
+    <string name="country_not_available">Country list to available!</string>
+    <string name="category_not_available">Category list to available!</string>
+    <string name="select_category">Select a category</string>
+    <string name="category_filter">Category:\\n%s</string>
+    <string name="select_source">Select a source</string>
+    <string name="update">Update</string>
+</resources>
