@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+<android.support.design.widget.CoordinatorLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.com.allinonenews.ui.home.HomeActivity">
+    tools:context="app.com.allinonenews.ui.home.NewsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include layout="@layout/tool_bar"/>
+        <include
+            android:id="@+id/tool_bar_layout"
+            layout="@layout/tool_bar"
+            />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -32,3 +36,4 @@
         app:srcCompat="@drawable/ic_filter_list" />
 
 </android.support.design.widget.CoordinatorLayout>
+</layout>

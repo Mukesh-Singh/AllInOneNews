@@ -1,6 +1,6 @@
 package app.com.allinonenews.ui.home;
 
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 
 import java.util.List;
 
@@ -47,9 +47,10 @@ public interface NewsContract {
 
         void scrollToTop();
 
-        void showGotToTopButton(boolean visible);
+        void setVisibilityGoToTopButton(boolean visible);
 
         void scrollToPosition(int position, int offset);
+        LinearLayoutManager getRecyclerViewLayoutManager();
     }
 
     interface Presenter extends BasePresenter {
@@ -62,7 +63,7 @@ public interface NewsContract {
 
         void onAuthorNameClicked(NewsModel newsModel);
 
-        void loadMore(RecyclerView.LayoutManager layoutManager);
+        void loadMore();
 
         void updateNews(SelectedSource source);
 
@@ -70,13 +71,16 @@ public interface NewsContract {
 
         void updateSeen();
 
-        void goToTop();
-
-        void setVisibilityOfGoToToButton(boolean visible);
-
         void saveFirstVisibleItemItemPosition(int position, int offset);
-
-        void scrollListToLastSavedPosition();
+        boolean isUpdate();
     }
+
+    /*
+     void loadMore(RecyclerView.LayoutManager layoutManager);
+     void goToTop();
+     void setVisibilityOfGoToToButton(boolean visible);
+     void scrollListToLastSavedPosition();
+
+     */
 
 }

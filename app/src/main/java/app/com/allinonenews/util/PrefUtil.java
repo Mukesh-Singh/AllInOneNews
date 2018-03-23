@@ -17,7 +17,6 @@ import static app.com.allinonenews.data.Constants.CATEGORY_ALL;
 
 public class PrefUtil {
     private static final String PREF_NAME="All_in_one_news_pref";
-    private Context context;
     private static PrefUtil INSTANCE;
     private SharedPreferences preferences;
     private static final long TIME_TO_UPDATE_SOURCE=24*60*60*1000;
@@ -38,7 +37,6 @@ public class PrefUtil {
     }
 
     private PrefUtil(Context context){
-        this.context=context;
         this.preferences=context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
     }
 
@@ -63,18 +61,17 @@ public class PrefUtil {
 
     public void saveSelectedSource(@Nullable SelectedSource selectedSource){
 
+        SharedPreferences.Editor editor= preferences.edit();
+
         if (selectedSource==null || Strings.isNullOrEmpty(selectedSource.getSourceName()) || Strings.isNullOrEmpty(selectedSource.getSourceName())){
-            SharedPreferences.Editor editor= preferences.edit();
             editor.putString(Key.SELECTED_SOURCE_NAME,DEFAULT_SOURCE_NAME);
             editor.putString(Key.SELECTED_SOURCE_ID,DEFAULT_SOURCE_ID);
-            editor.apply();
         }
         else {
-            SharedPreferences.Editor editor= preferences.edit();
             editor.putString(Key.SELECTED_SOURCE_NAME,selectedSource.getSourceName());
             editor.putString(Key.SELECTED_SOURCE_ID,selectedSource.getSourceId());
-            editor.apply();
         }
+        editor.apply();
     }
 
     public SelectedSource getSelectedSource(){

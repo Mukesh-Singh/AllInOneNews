@@ -2,6 +2,7 @@ package app.com.allinonenews.ui.home;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
 import app.com.allinonenews.R;
+import app.com.allinonenews.databinding.FragmentNewsBinding;
 import app.com.allinonenews.model.NewsModel;
 import app.com.allinonenews.model.NewsResponseModel;
 import app.com.allinonenews.ui.details.DetailActivity;
+import app.com.allinonenews.util.PrefUtil;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -33,16 +33,9 @@ public class NewsFragment extends Fragment implements NewsContract.View{
 
     private static final String TAG = NewsFragment.class.getSimpleName();
     private NewsContract.Presenter newsPresenter;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView mNewsRecyclerView;
-    private LinearLayout mNoNewsLayout;
     private LinearLayoutManager layoutManager;
-    private ImageView mNoNewsImage;
-    private TextView mNoNewsText;
-    private TextView mRetryText;
     private NewsAdapter adapter;
-    private TextView mNotification;
-    private ImageView mGoToTop;
+    private FragmentNewsBinding binding;
 
     public NewsFragment() {
 
@@ -58,60 +51,49 @@ public class NewsFragment extends Fragment implements NewsContract.View{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news,container,false);
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_news,container,false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
-        mNewsRecyclerView=(RecyclerView)view.findViewById(R.id.newsRecyclerView);
-        mNoNewsLayout=(LinearLayout) view.findViewById(R.id.noNewsLayout);
-        mNoNewsImage=(ImageView)view.findViewById(R.id.noNewsIcon);
-        mNoNewsText=(TextView)view.findViewById(R.id.noNoNewsText);
-        mRetryText=(TextView)view.findViewById(R.id.noNewsRetry);
-        mNotification=(TextView)view.findViewById(R.id.notify);
-        mGoToTop=(ImageView)view.findViewById(R.id.goToTop);
         adapter=new NewsAdapter(getContext(),getNewsItemClickListener());
         layoutManager=new LinearLayoutManager(getContext());
-        mNewsRecyclerView.setLayoutManager(layoutManager);
-        mNewsRecyclerView.setAdapter(adapter);
+        binding.newsRecyclerView.setLayoutManager(layoutManager);
+        binding.newsRecyclerView.setAdapter(adapter);
         newsPresenter.loadNews();
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,R.color.colorAccent,R.color.hyper_link_color);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.refreshLayout.setColorSchemeResources(R.color.colorPrimary,R.color.colorAccent,R.color.hyper_link_color);
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 newsPresenter.forceFullyLoadFromNetwork();
             }
         });
-        mNewsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.newsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                newsPresenter.loadMore(layoutManager);
+                newsPresenter.loadMore();
                 int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
                 //Log.e(TAG, "First Visible item: "+firstVisibleItem);
                 if (firstVisibleItem<=3){
-                    newsPresenter.setVisibilityOfGoToToButton(false);
+                    setVisibilityOfGoToToButton(false);
                 }
                 else {
                     if (dy<=0)
-                        newsPresenter.setVisibilityOfGoToToButton(true);
+                        setVisibilityOfGoToToButton(true);
                     else
-                        newsPresenter.setVisibilityOfGoToToButton(false);
+                        setVisibilityOfGoToToButton(false);
                 }
 
-                //Log.e(TAG, "Dy : "+dy);
             }
 
         });
-        mNotification.setOnClickListener(new View.OnClickListener() {
+        binding.notify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "Notification", Toast.LENGTH_SHORT).show();
-                //LinearLayoutManager layoutManager = (LinearLayoutManager) mNewsRecyclerView.getLayoutManager();
-                //layoutManager.scrollToPositionWithOffset(0, 5);
-               newsPresenter.goToTop();
+                scrollToTop();
             }
         });
 
@@ -129,27 +111,33 @@ public class NewsFragment extends Fragment implements NewsContract.View{
 
         });
 
-        mGoToTop.setOnClickListener(new View.OnClickListener() {
+        binding.goToTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //newsPresenter.setVisibilityOfGoToToButton(false);
-                newsPresenter.goToTop();
+                scrollToTop();
 
             }
         });
 
     }
 
-    @Override
-    public void scrollToTop() {
-        mNewsRecyclerView.smoothScrollToPosition(0);
+    public void setVisibilityOfGoToToButton(boolean visibility) {
+        if (!newsPresenter.isUpdate()){
+             setVisibilityGoToTopButton(visibility);
+        }
     }
 
     @Override
-    public void showGotToTopButton(boolean visible) {
+    public void scrollToTop() {
+        binding.newsRecyclerView.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void setVisibilityGoToTopButton(boolean visible) {
         if (visible)
-        mGoToTop.setVisibility(View.VISIBLE);
-        else mGoToTop.setVisibility(View.GONE);
+        binding.goToTop.setVisibility(View.VISIBLE);
+        else binding.goToTop.setVisibility(View.GONE);
     }
 
     @Override
@@ -159,17 +147,22 @@ public class NewsFragment extends Fragment implements NewsContract.View{
     }
 
     @Override
+    public LinearLayoutManager getRecyclerViewLayoutManager() {
+        return layoutManager;
+    }
+
+    @Override
     public void setLoadingIndicator(boolean active) {
-            mSwipeRefreshLayout.setRefreshing(active);
+            binding.refreshLayout.setRefreshing(active);
 
 
     }
 
     @Override
     public void showNews(NewsResponseModel newsResponseModel) {
-        mNewsRecyclerView.setVisibility(View.VISIBLE);
+        binding.newsRecyclerView.setVisibility(View.VISIBLE);
         adapter.updateFromLocal(newsResponseModel);
-        newsPresenter.scrollListToLastSavedPosition();
+        scrollListToLastSavedPosition();
     }
     @Override
     public void updateFromNetwork(NewsResponseModel newsResponseModel){
@@ -178,17 +171,17 @@ public class NewsFragment extends Fragment implements NewsContract.View{
 
     @Override
     public void hideNewsView() {
-        mNewsRecyclerView.setVisibility(View.GONE);
+        binding.newsRecyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void showNoNewsView() {
-        mNoNewsLayout.setVisibility(View.VISIBLE);
+        binding.noNewsLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideNoNewsView() {
-        mNoNewsLayout.setVisibility(View.GONE);
+        binding.noNewsLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -242,14 +235,14 @@ public class NewsFragment extends Fragment implements NewsContract.View{
 
     @Override
     public void updateNotificationView(int count) {
-        mNotification.setText(count+" "+getString(R.string.update));
-        mNotification.setVisibility(View.VISIBLE);
+        binding.notify.setText(count+" "+getString(R.string.update));
+        binding.notify.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void updateSeen() {
-        mNotification.setText("Top");
-        mNotification.setVisibility(View.GONE);
+        binding.notify.setText("Top");
+        binding.notify.setVisibility(View.GONE);
     }
 
 
@@ -279,16 +272,16 @@ public class NewsFragment extends Fragment implements NewsContract.View{
     @Override
     public void onStop() {
         int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
-        View v = mNewsRecyclerView.getChildAt(0);
-        int offset = (v == null) ? 0 : (v.getTop() - mNewsRecyclerView.getPaddingTop());
+        View v = binding.newsRecyclerView.getChildAt(0);
+        int offset = (v == null) ? 0 : (v.getTop() - binding.newsRecyclerView.getPaddingTop());
         newsPresenter.saveFirstVisibleItemItemPosition(firstVisibleItem, offset);
         super.onStop();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
+    public void scrollListToLastSavedPosition() {
+        PrefUtil prefUtil=PrefUtil.getInstance(getContext());
+        int pos=prefUtil.getListLastPosition();
+        int offset=prefUtil.getListOffset();
+        scrollToPosition(pos,offset);
     }
 }

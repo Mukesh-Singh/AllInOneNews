@@ -14,8 +14,8 @@ import retrofit2.http.QueryMap;
 
 public interface ApiMethods {
     String API_KEY="2890fe75234046e0bf976a2b8014aeae";
-    String API_URL="https://newsapi.org/v1/";
-    @GET("articles")
+    String API_URL="https://newsapi.org/v2/";
+    @GET("everything")
     Call<NewsResponseModel> getNewsList(@QueryMap Map<String, String> options);
 
     @GET("sources")

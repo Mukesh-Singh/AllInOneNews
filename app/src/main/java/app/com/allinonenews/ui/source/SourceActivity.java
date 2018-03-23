@@ -129,7 +129,7 @@ public class SourceActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void showCategoryPopUp(final List<String> categories) {
         categories.add(0,CATEGORY_ALL);
-        DialogUtil.showCountryList(this, categories,toolbar.getSubtitle().toString(), new DialogUtil.CountryListSelectCallback() {
+        DialogUtil.showCategoryList(this, categories,toolbar.getSubtitle().toString(), new DialogUtil.CountryListSelectCallback() {
             @Override
             public void onSelected(String selectedCategory) {
                 Log.e(TAG,"Selected: "+selectedCategory);

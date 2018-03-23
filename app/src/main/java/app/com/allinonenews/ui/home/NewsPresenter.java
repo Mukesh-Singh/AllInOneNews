@@ -2,7 +2,6 @@ package app.com.allinonenews.ui.home;
 
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import app.com.allinonenews.data.NewsDataSource;
 import app.com.allinonenews.data.repository.NewsRepository;
@@ -102,12 +101,12 @@ public class NewsPresenter implements NewsContract.Presenter{
     }
 
     @Override
-    public void loadMore(RecyclerView.LayoutManager layoutManager) {
+    public void loadMore() {
         try {
-            LinearLayoutManager lm = (LinearLayoutManager) layoutManager;
+            LinearLayoutManager lm = mView.getRecyclerViewLayoutManager();
             int totalItemCount = lm.getItemCount();
             if(totalItemCount<=0) {
-                mView.showGotToTopButton(false);
+                mView.setVisibilityGoToTopButton(false);
                 return;
             }
             int lastVisibleItem = lm.findLastVisibleItemPosition();
@@ -162,30 +161,18 @@ public class NewsPresenter implements NewsContract.Presenter{
     }
 
     @Override
-    public void goToTop() {
-        mView.scrollToTop();
+    public boolean isUpdate(){
+        return isUpdate;
     }
 
-    @Override
-    public void setVisibilityOfGoToToButton(boolean visibility) {
-        if (!isUpdate){
-            mView.showGotToTopButton(visibility);
-        }
-    }
+
+
+
 
     @Override
     public void saveFirstVisibleItemItemPosition(int position,int offset) {
         pref.saveListPosition(position,offset);
     }
-
-
-    @Override
-    public void scrollListToLastSavedPosition() {
-        int pos=pref.getListLastPosition();
-        int offset=pref.getListOffset();
-        mView.scrollToPosition(pos,offset);
-    }
-
 
     @Override
     public void start() {

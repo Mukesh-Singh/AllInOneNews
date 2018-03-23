@@ -36,7 +36,7 @@ public class NewsRemoteDataSource implements NewsDataSource {
     private static Map<String,String> getQueryMap(String source, String sortby) {
         Map<String,String> queryMap=new HashMap<>();
         if (source!=null && !source.isEmpty())
-            queryMap.put("source",source);
+            queryMap.put("sources",source);
         if (sortby!=null && !sortby.isEmpty())
             queryMap.put("sortBy",sortby);
         if (!ApiMethods.API_KEY.isEmpty())
