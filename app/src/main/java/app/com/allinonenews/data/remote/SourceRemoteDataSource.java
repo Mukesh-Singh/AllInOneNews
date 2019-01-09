@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.com.allinonenews.data.SourceDataSource;
+import app.com.allinonenews.data.remote.api.ApiMethods;
 import app.com.allinonenews.data.remote.api.RestHelper;
 import app.com.allinonenews.model.Source;
 import app.com.allinonenews.model.SourceResponseModel;
@@ -39,6 +40,8 @@ public class SourceRemoteDataSource implements SourceDataSource{
             queryMap.put("language",language);
         if (category!=null && !category.isEmpty())
             queryMap.put("category",category);
+
+        queryMap.put("apiKey", ApiMethods.API_KEY);
 
         return queryMap;
     }
