@@ -30,7 +30,7 @@ public class AppUtil {
             //System.out.println(pstFormat.format(date));
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return time;
         }
 
